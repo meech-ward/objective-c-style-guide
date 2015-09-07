@@ -32,9 +32,6 @@ I would like to thank the creators of the [Ray Wenderlich](https://github.com/ra
 * [Golden Path](#golden-path)
 * [Error handling](#error-handling)
 * [Singletons](#singletons)
-* [Line Breaks](#line-breaks)
-* [Smiley Face](#smiley-face)
-* [Xcode Project](#xcode-project)
 
 
 ## Language
