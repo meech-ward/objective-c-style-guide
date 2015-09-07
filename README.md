@@ -4,7 +4,7 @@ This style guide outlines the coding conventions for Sam Meech-Ward.
 
 ## Credits
 
-I would like to thank the creators of the [Ray Wenderlich](https://github.com/raywenderlich/objective-c-style-guide) Objective-C Style Guide.  This two style guides provided a solid starting point for this guide to be created and based upon.
+I would like to thank the creators of the [Ray Wenderlich](https://github.com/raywenderlich/objective-c-style-guide) Objective-C Style Guide. This guide is strongly based on theirs.
 
 ## Table of Contents
 
