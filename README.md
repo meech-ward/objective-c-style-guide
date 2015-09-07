@@ -1,27 +1,10 @@
-# The official raywenderlich.com Objective-C style guide.
+# Objective-C style guide.
 
-This style guide outlines the coding conventions for raywenderlich.com.
-
-## Introduction
-
-The reason we made this style guide was so that we could keep the code in our books, tutorials, and starter kits nice and consistent - even though we have many different authors working on the books.
-
-This style guide is different from other Objective-C style guides you may see, because the focus is centered on readability for print and the web. Many of the decisions were made with an eye toward conserving space for print, easy legibility, and tutorial writing.
+This style guide outlines the coding conventions for Sam Meech-Ward.
 
 ## Credits
 
-The creation of this style guide was a collaborative effort from various raywenderlich.com team members under the direction of Nicholas Waynik.  The team includes: [Soheil Moayedi Azarpour](https://github.com/moayes), [Ricardo Rendon Cepeda](https://github.com/ricardo-rendoncepeda), [Tony Dahbura](https://github.com/tdahbura), [Colin Eberhardt](https://github.com/ColinEberhardt), [Matt Galloway](https://github.com/mattjgalloway), [Greg Heo](https://github.com/gregheo), [Matthijs Hollemans](https://github.com/hollance), [Christopher LaPollo](https://github.com/elephantronic), [Saul Mora](https://github.com/casademora), [Andy Pereira](https://github.com/macandyp), [Mic Pringle](https://github.com/micpringle), [Pietro Rea](https://github.com/pietrorea), [Cesare Rocchi](https://github.com/funkyboy), [Marin Todorov](https://github.com/icanzilb), [Nicholas Waynik](https://github.com/ndubbs), and [Ray Wenderlich](https://github.com/raywenderlich)
-
-We would like to thank the creators of the [New York Times](https://github.com/NYTimes/objective-c-style-guide) and [Robots & Pencils'](https://github.com/RobotsAndPencils/objective-c-style-guide) Objective-C Style Guides.  These two style guides provided a solid starting point for this guide to be created and based upon.
-
-## Background
-
-Here are some of the documents from Apple that informed the style guide. If something isn't mentioned here, it's probably covered in great detail in one of these:
-
-* [The Objective-C Programming Language](http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/ObjectiveC/Introduction/introObjectiveC.html)
-* [Cocoa Fundamentals Guide](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CocoaFundamentals/Introduction/Introduction.html)
-* [Coding Guidelines for Cocoa](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html)
-* [iOS App Programming Guide](http://developer.apple.com/library/ios/#documentation/iphone/conceptual/iphoneosprogrammingguide/Introduction/Introduction.html)
+I would like to thank the creators of the [Ray Wenderlich](https://github.com/raywenderlich/objective-c-style-guide) Objective-C Style Guide.  This two style guides provided a solid starting point for this guide to be created and based upon.
 
 ## Table of Contents
 
@@ -115,7 +98,6 @@ Use `#pragma mark -` to categorize methods in functional groupings and protocol/
 
 ## Spacing
 
-* Indent using 2 spaces (this conserves space in print and makes line wrapping less likely). Never indent with tabs. Be sure to set this preference in Xcode.
 * Method braces and other braces (`if`/`else`/`switch`/`while` etc.) always open on the same line as the statement but close on a new line.
 
 **Preferred:**
@@ -170,7 +152,8 @@ else {
 
 When they are needed, comments should be used to explain **why** a particular piece of code does something. Any comments that are used must be kept up-to-date or deleted.
 
-Block comments should generally be avoided, as code should be as self-documenting as possible, with only the need for intermittent, few-line explanations. *Exception: This does not apply to those comments used to generate documentation.*
+Use documentation style comments ```objc/** */``` when declaring methods and properties. These comments should use the [appledoc](https://github.com/tomaz/appledoc) syntax.
+
 
 ## Naming
 
@@ -190,14 +173,20 @@ UIButton *settingsButton;
 UIButton *setBut;
 ```
 
-A three letter prefix should always be used for class names and constants, however may be omitted for Core Data entity names. For any official raywenderlich.com books, starter kits, or tutorials, the prefix 'RWT' should be used.
+A three letter prefix should always be used for class names and public constants, eg SMW, however may be omitted for Core Data entity names.
 
-Constants should be camel-case with all words capitalized and prefixed by the related class name for clarity.
+Private constants should be camel-case with all words capitalized and prefixed by the letter k.
 
 **Preferred:**
 
+Public :
 ```objc
-static NSTimeInterval const RWTTutorialViewControllerNavigationFadeAnimationDuration = 0.3;
+static NSTimeInterval const SMWAnimationDuration = 0.3;
+```
+
+Private :
+```objc
+static NSTimeInterval const kAnimationDuration = 0.3;
 ```
 
 **Not Preferred:**
@@ -222,11 +211,7 @@ id varnm;
 
 ### Underscores
 
-When using properties, instance variables should always be accessed and mutated using `self.`. This means that all properties will be visually distinct, as they will all be prefaced with `self.`. 
-
-An exception to this: inside initializers, the backing instance variable (i.e. _variableName) should be used directly to avoid any potential side effects of the getters/setters.
-
-Local variables should not contain underscores.
+Properties should always be used to access instance variables of an object externally `self.variable`. Internally you should read instance variables using direct access `var = _variable` but to set them using the property `self.variable = var`, with a few caveats. Like setting a property in the initializer method, or using lazy instantiation.
 
 ## Methods
 
@@ -258,14 +243,12 @@ Variables should be named as descriptively as possible. Single letter variable n
 
 Asterisks indicating pointers belong with the variable, e.g., `NSString *text` not `NSString* text` or `NSString * text`, except in the case of constants.
 
-[Private properties](#private-properties) should be used in place of instance variables whenever possible. Although using instance variables is a valid way of doing things, by agreeing to prefer properties our code will be more consistent. 
-
-Direct access to instance variables that 'back' properties should be avoided except in initializer methods (`init`, `initWithCoder:`, etc…), `dealloc` methods and within custom setters and getters. For more information on using Accessor Methods in Initializer Methods and dealloc, see [here](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmPractical.html#//apple_ref/doc/uid/TP40004447-SW6).
+[Private properties](#private-properties) should be used in place of instance variables whenever possible. Although using instance variables is a valid way of doing things, by agreeing to prefer properties our code will be more consistent.
 
 **Preferred:**
 
 ```objc
-@interface RWTTutorial : NSObject
+@interface SMWTutorial : NSObject
 
 @property (strong, nonatomic) NSString *tutorialName;
 
@@ -275,15 +258,14 @@ Direct access to instance variables that 'back' properties should be avoided exc
 **Not Preferred:**
 
 ```objc
-@interface RWTTutorial : NSObject {
+@interface SMWTutorial : NSObject {
   NSString *tutorialName;
 }
 ```
 
-
 ## Property Attributes
 
-Property attributes should be explicitly listed, and will help new programmers when reading the code.  The order of properties should be storage then atomicity, which is consistent with automatically generated code when connecting UI elements from Interface Builder.
+Property attributes should be explicitly listed, and will help new programmers when reading the code.  The order of properties should be storage then atomicity, which is consistent with automatically generated code when connecting UI elements from Interface Builder, but this can be loosely enforced.
 
 **Preferred:**
 
@@ -299,7 +281,7 @@ Property attributes should be explicitly listed, and will help new programmers w
 @property (nonatomic) NSString *tutorialName;
 ```
 
-Properties with mutable counterparts (e.g. NSString) should prefer `copy` instead of `strong`. 
+Properties with mutable counterparts (e.g. NSString) should prefer `copy` instead of `strong`.
 Why? Even if you declared a property as `NSString` somebody might pass in an instance of an `NSMutableString` and then change it without you noticing that.  
 
 **Preferred:**
@@ -363,15 +345,15 @@ Constants are preferred over in-line string literals or numbers, as they allow f
 **Preferred:**
 
 ```objc
-static NSString * const RWTAboutViewControllerCompanyName = @"RayWenderlich.com";
+static NSString * const SMWAboutViewControllerCompanyName = @"meech-ward.com";
 
-static CGFloat const RWTImageThumbnailHeight = 50.0;
+static CGFloat const kImageThumbnailHeight = 50.0;
 ```
 
 **Not Preferred:**
 
 ```objc
-#define CompanyName @"RayWenderlich.com"
+#define CompanyName @"meech-ward.com"
 
 #define thumbnailHeight 2
 ```
@@ -383,25 +365,12 @@ When using `enum`s, it is recommended to use the new fixed underlying type speci
 **For Example:**
 
 ```objc
-typedef NS_ENUM(NSInteger, RWTLeftMenuTopItemType) {
-  RWTLeftMenuTopItemMain,
-  RWTLeftMenuTopItemShows,
-  RWTLeftMenuTopItemSchedule
+typedef NS_ENUM(NSInteger, SMWLeftMenuTopItemType) {
+  SMWLeftMenuTopItemMain,
+  SMWLeftMenuTopItemShows,
+  SMWLeftMenuTopItemSchedule
 };
 ```
-
-You can also make explicit value assignments (showing older k-style constant definition):
-
-```objc
-typedef NS_ENUM(NSInteger, RWTGlobalConstants) {
-  RWTPinSizeMin = 1,
-  RWTPinSizeMax = 5,
-  RWTPinCountMin = 100,
-  RWTPinCountMax = 500,
-};
-```
-
-Older k-style constant definitions should be **avoided** unless writing CoreFoundation C code (unlikely).
 
 **Not Preferred:**
 
@@ -431,7 +400,7 @@ switch (condition) {
   case 3:
     // ...
     break;
-  default: 
+  default:
     // ...
     break;
 }
@@ -447,7 +416,7 @@ switch (condition) {
   case 2:
     // code executed for values 1 and 2
     break;
-  default: 
+  default:
     // ...
     break;
 }
@@ -457,16 +426,16 @@ switch (condition) {
 When using an enumerated type for a switch, 'default' is not needed.   For example:
 
 ```objc
-RWTLeftMenuTopItemType menuType = RWTLeftMenuTopItemMain;
+SMWLeftMenuTopItemType menuType = SMWLeftMenuTopItemMain;
 
 switch (menuType) {
-  case RWTLeftMenuTopItemMain:
+  case SMWLeftMenuTopItemMain:
     // ...
     break;
-  case RWTLeftMenuTopItemShows:
+  case SMWLeftMenuTopItemShows:
     // ...
     break;
-  case RWTLeftMenuTopItemSchedule:
+  case SMWLeftMenuTopItemSchedule:
     // ...
     break;
 }
@@ -475,12 +444,12 @@ switch (menuType) {
 
 ## Private Properties
 
-Private properties should be declared in class extensions (anonymous categories) in the implementation file of a class. Named categories (such as `RWTPrivate` or `private`) should never be used unless extending another class.   The Anonymous category can be shared/exposed for testing using the <headerfile>+Private.h file naming convention.
+Private properties should be declared in class extensions (anonymous categories) in the implementation file of a class. Named categories (such as `SMWPrivate` or `private`) should never be used unless extending another class.   The Anonymous category can be shared/exposed for testing using the <headerfile>+Private.h file naming convention.
 
 **For Example:**
 
 ```objc
-@interface RWTDetailViewController ()
+@interface SMWDetailViewController ()
 
 @property (strong, nonatomic) GADBannerView *googleAdView;
 @property (strong, nonatomic) ADBannerView *iAdView;
@@ -579,11 +548,11 @@ See [Class Constructor Methods](#class-constructor-methods) for link to article 
 
 ## Class Constructor Methods
 
-Where class constructor methods are used, these should always return type of 'instancetype' and never 'id'. This ensures the compiler correctly infers the result type. 
+Where class constructor methods are used, these should always return type of 'instancetype' and never 'id'. This ensures the compiler correctly infers the result type.
 
 ```objc
 @interface Airplane
-+ (instancetype)airplaneWithType:(RWTAirplaneType)type;
++ (instancetype)airplaneWithType:(SMWAirplaneType)type;
 @end
 ```
 
@@ -686,47 +655,11 @@ Singleton objects should use a thread-safe pattern for creating their shared ins
 ```
 This will prevent [possible and sometimes prolific crashes](http://cocoasamurai.blogspot.com/2011/04/singletons-your-doing-them-wrong.html).
 
-
-## Line Breaks
-
-Line breaks are an important topic since this style guide is focused for print and online readability.
-
-For example:
-```objc
-self.productsRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:productIdentifiers];
-```
-A long line of code like this should be carried on to the second line adhering to this style guide's Spacing section (two spaces).
-```objc
-self.productsRequest = [[SKProductsRequest alloc] 
-  initWithProductIdentifiers:productIdentifiers];
-```
-
-
-## Smiley Face
-
-Smiley faces are a very prominent style feature of the raywenderlich.com site!  It is very important to have the correct smile signifying the immense amount of happiness and excitement for the coding topic.  The end square bracket is used because it represents the largest smile able to be captured using ascii art.  A half-hearted smile is represented if an end parenthesis is used, and thus not preferred.
-
-**Preferred:**
-```objc
-:]
-```
-
-**Not Preferred:**
-```objc
-:)
-```  
-
-
-## Xcode project
-
-The physical files should be kept in sync with the Xcode project files in order to avoid file sprawl. Any Xcode groups created should be reflected by folders in the filesystem. Code should be grouped not only by type, but also by feature for greater clarity.
-
-When possible, always turn on "Treat Warnings as Errors" in the target's Build Settings and enable as many [additional warnings](http://boredzo.org/blog/archives/2009-11-07/warnings) as possible. If you need to ignore a specific warning, use [Clang's pragma feature](http://clang.llvm.org/docs/UsersManual.html#controlling-diagnostics-via-pragmas).
-
 # Other Objective-C Style Guides
 
-If ours doesn't fit your tastes, have a look at some other style guides:
+If mine doesn't fit your tastes, have a look at some other style guides:
 
+* [Ray Wenderlich](https://github.com/raywenderlich/objective-c-style-guide)
 * [Robots & Pencils](https://github.com/RobotsAndPencils/objective-c-style-guide)
 * [New York Times](https://github.com/NYTimes/objective-c-style-guide)
 * [Google](http://google-styleguide.googlecode.com/svn/trunk/objcguide.xml)
